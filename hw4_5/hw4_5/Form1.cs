@@ -3,7 +3,7 @@ namespace hw4_5
     public partial class Form1 : Form
     {
         private const int _row = 0;
-        private const int _minColumns = 5;
+        private const int _minColumns = 6;
         private const int _rowHeaderSize = 80;
 
         public Form1()
@@ -17,9 +17,10 @@ namespace hw4_5
         }
         private void HeaderTable()
         {
+            var nameCol = new List<string> { "Name", "Cost", "Description", "Count", "Country", "Type"};
             foreach (DataGridViewColumn col in dataGridView1.Columns)
             {
-                col.HeaderText = (col.Index + 1).ToString();
+                col.HeaderText = nameCol[col.Index];
             }
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
@@ -67,7 +68,33 @@ namespace hw4_5
 
         private void button1_Click(object sender, EventArgs e)//add bttn
         {
-            dataGridView1.Rows.Add(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text);
+            float _cost = float.Parse(textBox2.Text);
+            int _count = Convert.ToInt32(textBox4.Text);
+
+            if (_count <= 0 || _cost <= 0)
+            {
+                MessageBox.Show("Error", "Error");
+            }
+            else
+            {
+                bool flag = true;
+                for (int i = 0; i < dataGridView1.RowCount; i++)
+                {
+                    if (textBox1.Text == dataGridView1.Rows[i].Cells[0].Value.ToString())
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag)
+                {
+                    dataGridView1.Rows.Add(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text, textBox6.Text);
+                }
+                else
+                {
+                    MessageBox.Show("THIS PRODUCT IS ALREADY IN THE TABLE");
+                }
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)//delete bttn
@@ -95,6 +122,11 @@ namespace hw4_5
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
